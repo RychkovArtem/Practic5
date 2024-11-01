@@ -34,6 +34,7 @@ namespace Practic5
         }
         public override string ToString()
         {
+
             //Объявляем список для хранения коэффициентов в строковом ввиде
             List<string> array = new List<string>();
 
