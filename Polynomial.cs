@@ -40,74 +40,80 @@ namespace Practic5
             //    //Объявляем переменную строкого типа для хранения символа "x" в разных степенях
             string x = "x";
 
-            for (int i = 0; i < _coefficients.Length; i++)
+            if (_coefficients.Length == 1)
             {
-                if (_coefficients[i] > 0)
+                array.Add($"{_coefficients[0]}");
+            }
+            else
+            {
+                for (int i = 0; i < _coefficients.Length; i++)
                 {
-                    if (_coefficients[i] == 1)
+                    if (_coefficients[i] > 0)
                     {
-                        if (i == 0)
-                        {
-                            array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                        }
-                        else
-                        {
-                            if (i == _coefficients.Length - 1)
-                            {
-                                array.Add($"{exponent(x, i)}");
-                            }
-                            else
-                            {
-                                array.Add($"+{exponent(x, i)}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (i == 0)
-                        {
-                            array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                        }
-                        else
-                        {
-                            if (i == _coefficients.Length - 1)
-                            {
-                                array.Add($"{_coefficients[i]}{exponent(x, i)}");
-                            }
-                            else
-                            {
-                                array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (_coefficients[i] == 0)
-                    {
-                        array.Add($"");
-                    }
-                    else
-                    {
-                        if (_coefficients[i] == -1)
+                        if (_coefficients[i] == 1)
                         {
                             if (i == 0)
                             {
-                                array.Add($"{_coefficients[i]}{exponent(x, i)}");
+                                array.Add($"+{_coefficients[i]}{exponent(x, i)}");
                             }
                             else
                             {
-                                array.Add($"-{exponent(x, i)}");
+                                if (i == _coefficients.Length - 1)
+                                {
+                                    array.Add($"{exponent(x, i)}");
+                                }
+                                else
+                                {
+                                    array.Add($"+{exponent(x, i)}");
+                                }
                             }
                         }
                         else
                         {
-                            array.Add($"{_coefficients[i]}{exponent(x, i)}");
+                            if (i == 0)
+                            {
+                                array.Add($"+{_coefficients[i]}{exponent(x, i)}");
+                            }
+                            else
+                            {
+                                if (i == _coefficients.Length - 1)
+                                {
+                                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
+                                }
+                                else
+                                {
+                                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_coefficients[i] == 0)
+                        {
+                            array.Add($"");
+                        }
+                        else
+                        {
+                            if (_coefficients[i] == -1)
+                            {
+                                if (i == 0)
+                                {
+                                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
+                                }
+                                else
+                                {
+                                    array.Add($"-{exponent(x, i)}");
+                                }
+                            }
+                            else
+                            {
+                                array.Add($"{_coefficients[i]}{exponent(x, i)}");
+                            }
                         }
                     }
                 }
             }
-
             array.Reverse();
 
             return String.Join("", array);
@@ -162,7 +168,7 @@ namespace Practic5
                 double coeffQ = (i < P2._coefficients.Length) ? P2._coefficients[i] : 0; // Если индекс выходит за пределы Q, берем 0
                 R[i] = coeffP - coeffQ;
             }
-
+            Array.Reverse(R);
             return new Polynomial(R);
         }
         public static Polynomial operator *(Polynomial P1, Polynomial P2)
@@ -171,6 +177,8 @@ namespace Practic5
 
             // Инициализируем результующий многочлен
             double[] R = new double[maxDegree];
+            double[] coefficientsP = {0};
+            double[] coefficientsQ = {0};
             int maxI = 0;
             int maxK = 0;
 
@@ -178,10 +186,18 @@ namespace Practic5
             {
                 maxI = P2._coefficients.Length;
                 maxK = P1._coefficients.Length;
+                coefficientsP = new double[P1._coefficients.Length];
+                coefficientsQ = new double[P2._coefficients.Length];
+                Array.Copy(P1._coefficients, coefficientsP, P1._coefficients.Length);
+                Array.Copy(P2._coefficients, coefficientsQ, P2._coefficients.Length);
             } else
             {
                 maxI = P1._coefficients.Length;
                 maxK = P2._coefficients.Length;
+                coefficientsP = new double[P2._coefficients.Length];
+                coefficientsQ = new double[P1._coefficients.Length];
+                Array.Copy(P2._coefficients, coefficientsP, P2._coefficients.Length);
+                Array.Copy(P1._coefficients, coefficientsQ, P1._coefficients.Length);
             }
 
             // Умножение коэффициентов
@@ -189,12 +205,12 @@ namespace Practic5
             {
                 for (int k = 0; k < maxK; k++)
                 {
-                    double coeffP = (k < P1._coefficients.Length) ? P1._coefficients[k] : 0; // Если индекс выходит за пределы P, берем 0
-                    double coeffQ = (i < P2._coefficients.Length) ? P2._coefficients[i] : 0; // Если индекс выходит за пределы Q, берем 0
+                    double coeffP = (k < maxK) ? coefficientsP[k] : 0; // Если индекс выходит за пределы P, берем 0
+                    double coeffQ = (i < maxI) ? coefficientsQ[i] : 0; // Если индекс выходит за пределы Q, берем 0
                     R[i + k] += coeffP * coeffQ;
                 }
             }
-
+            Array.Reverse(R);
             return new Polynomial(R);
         }
         public static Polynomial operator /(Polynomial P1, Polynomial P2)
@@ -238,6 +254,8 @@ namespace Practic5
 
             // Инициализируем результующий многочлен
             double[] R = new double[maxDegree];
+            double[] coefficientsP = { 0 };
+            double[] coefficientsQ = { 0 };
             Polynomial r = new Polynomial(P1._coefficients);
             int maxI = 0;
             int maxK = 0;
@@ -273,11 +291,19 @@ namespace Practic5
             {
                 maxI = P2._coefficients.Length;
                 maxK = P1._coefficients.Length;
+                coefficientsP = new double[P1._coefficients.Length];
+                coefficientsQ = new double[P2._coefficients.Length];
+                Array.Copy(P1._coefficients, coefficientsP, P1._coefficients.Length);
+                Array.Copy(P2._coefficients, coefficientsQ, P2._coefficients.Length);
             }
             else
             {
                 maxI = P1._coefficients.Length;
                 maxK = P2._coefficients.Length;
+                coefficientsP = new double[P2._coefficients.Length];
+                coefficientsQ = new double[P1._coefficients.Length];
+                Array.Copy(P2._coefficients, coefficientsP, P2._coefficients.Length);
+                Array.Copy(P1._coefficients, coefficientsQ, P1._coefficients.Length);
             }
 
             // Умножение коэффициентов
@@ -285,12 +311,12 @@ namespace Practic5
             {
                 for (int k = 0; k < maxK; k++)
                 {
-                    double coeffP = (k < P1._coefficients.Length) ? P1._coefficients[k] : 0; // Если индекс выходит за пределы P, берем 0
-                    double coeffQ = (i < P2._coefficients.Length) ? P2._coefficients[i] : 0; // Если индекс выходит за пределы Q, берем 0
+                    double coeffP = (k < maxK) ? coefficientsP[k] : 0; // Если индекс выходит за пределы P, берем 0
+                    double coeffQ = (i < maxI) ? coefficientsQ[i] : 0; // Если индекс выходит за пределы Q, берем 0
                     R[i + k] += coeffP / coeffQ;
                 }
             }
-
+            Array.Reverse(R);
             return new Polynomial(R);
         }
         public double Exp()
