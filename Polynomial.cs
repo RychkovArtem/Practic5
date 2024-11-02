@@ -9,12 +9,21 @@ namespace Practic5
 {
     public class Polynomial
     {
-        public double[] _coefficients { get; set; }
+        private double[] _coefficients;
+        public double[] _Coefficients 
+        { 
+            get { return _coefficients; }
+            set 
+            {
+                _coefficients = value;
+                Array.Reverse(_coefficients);
+            }
+        }
         public double[] _exp { get; set; }
         public Polynomial(double [] coefficients)
         {
-            _coefficients = coefficients;
-            Array.Reverse(_coefficients);
+            _Coefficients = coefficients;
+            //Array.Reverse(_coefficients);
             _exp = new double[coefficients.Length];
             for (int i = 0; i < _exp.Length; i++)
             {
@@ -128,7 +137,7 @@ namespace Practic5
             {
                 switch (i)
                 {
-                    case 0: return ""; // пустой символ
+                    case 0: return $"{p}"; // пустой символ
                     case 1: return $"{p}"; // p
                     case 2: return $"{p}" + "²"; // p^2
                     case 3: return $"{p}" + "³"; // p^3
@@ -373,7 +382,7 @@ namespace Practic5
         }
         public void first_monomial(out double monomial, out int e)
         {
-            Array.Reverse(_coefficients);
+            //Array.Reverse(_coefficients);
             int i = _coefficients.Length - 1;
             for (; i >= 0; i--)
             {
@@ -391,7 +400,7 @@ namespace Practic5
         {
                 switch (i)
                 {
-                    case 0: return ""; // пустой символ
+                    case 0: return $"{p}"; // пустой символ
                     case 1: return $"{p}" + "x"; // p
                     case 2: return $"{p}" + "x²"; // p^2
                     case 3: return $"{p}" + "x³"; // p^3
