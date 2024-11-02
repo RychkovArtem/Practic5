@@ -47,13 +47,15 @@ namespace Practic5
             List<string> array = new List<string>();
 
             //    //Объявляем переменную строкого типа для хранения символа "x" в разных степенях
-            string x = "x";
+            string x = "";
             double a = 0;
             int exp = 0;
             first_monomial(out a, out exp);
-
             x = exponent_x(a, exp);
 
+
+            next_monomial(out a, out exp, x, out x);
+            //x = exponent_x(a, exp);
 
             if (_coefficients.Length == 1)
             {
@@ -388,12 +390,18 @@ namespace Practic5
             {
                 if (_coefficients[i] != 0)
                 {
+                    if(i > 0 && _coefficients[i] == 1)
+                    {
+                        monomial = _coefficients[i];
+                        e = -1;
+                        return;
+                    }
                     monomial = _coefficients[i];
                     e = i;
                     return;
                 }
             }
-            e = i;
+            e = 0;
             monomial = 0;
         }
         public string exponent_x(double p, int i)
@@ -410,8 +418,41 @@ namespace Practic5
                     case 7: return $"{p}" + "x⁷"; // p^7
                     case 8: return $"{p}" + "x⁸"; // p^8
                     case 9: return $"{p}" + "x⁹"; // p^9
+                    case -1:return "x";
                     default: return ""; // Для остальных значений
                 }
+        }
+        public void next_monomial(out double monomial, out int e, string x_in, out string x_out)
+        {
+            x_out = x_in;
+            int i = 0;
+            if (_coefficients.Length > 1)
+            {
+                i = _coefficients.Length - 2;
+                for (; i >= 0; i--)
+                {
+                        //monomial = _coefficients[i];
+                        if (i == 0 && _coefficients[i] == 0)
+                    {
+                        monomial = _coefficients[i];
+                        e = i;
+                        return;
+                    }
+                        e = i;
+                        if (_coefficients[i] > 0)
+                    {
+                        e = i;
+                        monomial = _coefficients[i];
+                    }
+                    else
+                    {
+                        monomial = _coefficients[i];
+                    }
+                        //mon += $"{exponent_x(_coefficients[i], e)}";
+                }
+            }
+            e = 0;
+            monomial = 0;
         }
     }
 }
