@@ -39,6 +39,12 @@ namespace Practic5
 
             //    //Объявляем переменную строкого типа для хранения символа "x" в разных степенях
             string x = "x";
+            double a = 0;
+            int exp = 0;
+            first_monomial(out a, out exp);
+
+            x = exponent_x(a, exp);
+
 
             if (_coefficients.Length == 1)
             {
@@ -364,6 +370,39 @@ namespace Practic5
                 }
             }
             return 0;
+        }
+        public void first_monomial(out double monomial, out int e)
+        {
+            Array.Reverse(_coefficients);
+            int i = _coefficients.Length - 1;
+            for (; i >= 0; i--)
+            {
+                if (_coefficients[i] != 0)
+                {
+                    monomial = _coefficients[i];
+                    e = i;
+                    return;
+                }
+            }
+            e = i;
+            monomial = 0;
+        }
+        public string exponent_x(double p, int i)
+        {
+                switch (i)
+                {
+                    case 0: return ""; // пустой символ
+                    case 1: return $"{p}" + "x"; // p
+                    case 2: return $"{p}" + "x²"; // p^2
+                    case 3: return $"{p}" + "x³"; // p^3
+                    case 4: return $"{p}" + "x⁴"; // p^4
+                    case 5: return $"{p}" + "x⁵"; // p^5
+                    case 6: return $"{p}" + "x⁶"; // p^6
+                    case 7: return $"{p}" + "x⁷"; // p^7
+                    case 8: return $"{p}" + "x⁸"; // p^8
+                    case 9: return $"{p}" + "x⁹"; // p^9
+                    default: return ""; // Для остальных значений
+                }
         }
     }
 }
