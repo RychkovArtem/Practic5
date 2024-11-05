@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Practic5
 {
@@ -38,14 +41,61 @@ namespace Practic5
             List<string> array = new List<string>();
 
             //    //Объявляем переменную строкого типа для хранения символа "x" в разных степенях
-            string x = "x";
-            double a = 0;
-            int exp = 0;
+            //string x = "x";
+            //double a = 0;
+            //int exp = 0;
 
             for (int i = 0; i < _coefficients.Length; i++)
             {
-
+                array.Add($"{exponent_x(_coefficients[i], i)}");
             }
+
+            array.Reverse();
+
+
+            char oldChar = '0'; // Символ, который мы ищем
+            string newChar = ""; // Символ, на который мы заменяем
+            int numberNull = 0;
+            char oldOne = '1'; // Символ, который мы ищем
+
+            // Удаляем символ '0'
+            for (int i = 0; i < array.Count; i++)
+            {
+                foreach (char c in array[i])
+                {
+                    if (c == oldChar)
+                    {
+                        array[i] = newChar;
+                        break; // Выходим из цикла, если символ найден
+                    }
+                }
+            }
+
+            // Удаляем символ '1'
+            for (int i = 0; i < array.Count; i++)
+            {
+                // Если это не последняя строка, то удаляем символ '1'
+                if (i < array.Count - 1)
+                {
+                    array[i] = array[i].Replace(oldOne.ToString(), string.Empty);
+                }
+            }
+
+            // Проверяем массив на пустые строки
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] == newChar)
+                {
+                    numberNull++;
+                }
+            }
+
+            // Если массив состоит из пустых строк, то выводим "0"
+            if (numberNull == array.Count)
+            {
+                return "0";
+            } else
+            return String.Join("", array);
             //first_monomial(out a, out exp);
 
             //x = exponent_x(a, exp);
@@ -129,23 +179,23 @@ namespace Practic5
 
             //return String.Join("", array);
 
-            string exponent(string p, int i)
-            {
-                switch (i)
-                {
-                    case 0: return $"{p}" + ; // пустой символ
-                    case 1: return $"{p}"; // p
-                    case 2: return $"{p}" + "²"; // p^2
-                    case 3: return $"{p}" + "³"; // p^3
-                    case 4: return $"{p}" + "⁴"; // p^4
-                    case 5: return $"{p}" + "⁵"; // p^5
-                    case 6: return $"{p}" + "⁶"; // p^6
-                    case 7: return $"{p}" + "⁷"; // p^7
-                    case 8: return $"{p}" + "⁸"; // p^8
-                    case 9: return $"{p}" + "⁹"; // p^9
-                    default: return ""; // Для остальных значений
-                }
-            }
+            //string exponent(string p, int i)
+            //{
+            //    switch (i)
+            //    {
+            //        case 0: return $"{p}" + ""; // пустой символ
+            //        case 1: return $"{p}"; // p
+            //        case 2: return $"{p}" + "²"; // p^2
+            //        case 3: return $"{p}" + "³"; // p^3
+            //        case 4: return $"{p}" + "⁴"; // p^4
+            //        case 5: return $"{p}" + "⁵"; // p^5
+            //        case 6: return $"{p}" + "⁶"; // p^6
+            //        case 7: return $"{p}" + "⁷"; // p^7
+            //        case 8: return $"{p}" + "⁸"; // p^8
+            //        case 9: return $"{p}" + "⁹"; // p^9
+            //        default: return ""; // Для остальных значений
+            //    }
+            //}
         }
         public static Polynomial operator +(Polynomial P1, Polynomial P2)
         {
@@ -396,7 +446,7 @@ namespace Practic5
         {
                 switch (i)
                 {
-                    case 0: return ""; // пустой символ
+                    case 0: return $"{p}"; // пустой символ
                     case 1: return $"{p}" + "x"; // p
                     case 2: return $"{p}" + "x²"; // p^2
                     case 3: return $"{p}" + "x³"; // p^3
