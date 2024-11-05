@@ -41,94 +41,99 @@ namespace Practic5
             string x = "x";
             double a = 0;
             int exp = 0;
-            first_monomial(out a, out exp);
 
-            x = exponent_x(a, exp);
-
-
-            if (_coefficients.Length == 1)
+            for (int i = 0; i < _coefficients.Length; i++)
             {
-                array.Add($"{_coefficients[0]}");
-            }
-            else
-            {
-                for (int i = 0; i < _coefficients.Length; i++)
-                {
-                    if (_coefficients[i] > 0)
-                    {
-                        if (_coefficients[i] == 1)
-                        {
-                            if (i == 0)
-                            {
-                                array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                            }
-                            else
-                            {
-                                if (i == _coefficients.Length - 1)
-                                {
-                                    array.Add($"{exponent(x, i)}");
-                                }
-                                else
-                                {
-                                    array.Add($"+{exponent(x, i)}");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (i == 0)
-                            {
-                                array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                            }
-                            else
-                            {
-                                if (i == _coefficients.Length - 1)
-                                {
-                                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
-                                }
-                                else
-                                {
-                                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (_coefficients[i] == 0)
-                        {
-                            array.Add($"");
-                        }
-                        else
-                        {
-                            if (_coefficients[i] == -1)
-                            {
-                                if (i == 0)
-                                {
-                                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
-                                }
-                                else
-                                {
-                                    array.Add($"-{exponent(x, i)}");
-                                }
-                            }
-                            else
-                            {
-                                array.Add($"{_coefficients[i]}{exponent(x, i)}");
-                            }
-                        }
-                    }
-                }
-            }
-            array.Reverse();
 
-            return String.Join("", array);
+            }
+            //first_monomial(out a, out exp);
+
+            //x = exponent_x(a, exp);
+
+
+            //if (_coefficients.Length == 1)
+            //{
+            //    array.Add($"{_coefficients[0]}");
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < _coefficients.Length; i++)
+            //    {
+            //        if (_coefficients[i] > 0)
+            //        {
+            //            if (_coefficients[i] == 1)
+            //            {
+            //                if (i == 0)
+            //                {
+            //                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
+            //                }
+            //                else
+            //                {
+            //                    if (i == _coefficients.Length - 1)
+            //                    {
+            //                        array.Add($"{exponent(x, i)}");
+            //                    }
+            //                    else
+            //                    {
+            //                        array.Add($"+{exponent(x, i)}");
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (i == 0)
+            //                {
+            //                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
+            //                }
+            //                else
+            //                {
+            //                    if (i == _coefficients.Length - 1)
+            //                    {
+            //                        array.Add($"{_coefficients[i]}{exponent(x, i)}");
+            //                    }
+            //                    else
+            //                    {
+            //                        array.Add($"+{_coefficients[i]}{exponent(x, i)}");
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            if (_coefficients[i] == 0)
+            //            {
+            //                array.Add($"");
+            //            }
+            //            else
+            //            {
+            //                if (_coefficients[i] == -1)
+            //                {
+            //                    if (i == 0)
+            //                    {
+            //                        array.Add($"{_coefficients[i]}{exponent(x, i)}");
+            //                    }
+            //                    else
+            //                    {
+            //                        array.Add($"-{exponent(x, i)}");
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //array.Reverse();
+
+            //return String.Join("", array);
 
             string exponent(string p, int i)
             {
                 switch (i)
                 {
-                    case 0: return ""; // пустой символ
+                    case 0: return $"{p}" + ; // пустой символ
                     case 1: return $"{p}"; // p
                     case 2: return $"{p}" + "²"; // p^2
                     case 3: return $"{p}" + "³"; // p^3
