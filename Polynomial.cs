@@ -39,11 +39,7 @@ namespace Practic5
         {
             //Объявляем список для хранения коэффициентов в строковом ввиде
             List<string> array = new List<string>();
-
-            //    //Объявляем переменную строкого типа для хранения символа "x" в разных степенях
-            //string x = "x";
-            //double a = 0;
-            //int exp = 0;
+            List<string> newarray = new List<string>();
 
             for (int i = 0; i < _coefficients.Length; i++)
             {
@@ -51,7 +47,6 @@ namespace Practic5
             }
 
             array.Reverse();
-
 
             char oldChar = '0'; // Символ, который мы ищем
             string newChar = ""; // Символ, на который мы заменяем
@@ -94,108 +89,21 @@ namespace Practic5
             if (numberNull == array.Count)
             {
                 return "0";
-            } else
-            return String.Join("", array);
-            //first_monomial(out a, out exp);
-
-            //x = exponent_x(a, exp);
-
-
-            //if (_coefficients.Length == 1)
-            //{
-            //    array.Add($"{_coefficients[0]}");
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < _coefficients.Length; i++)
-            //    {
-            //        if (_coefficients[i] > 0)
-            //        {
-            //            if (_coefficients[i] == 1)
-            //            {
-            //                if (i == 0)
-            //                {
-            //                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-            //                }
-            //                else
-            //                {
-            //                    if (i == _coefficients.Length - 1)
-            //                    {
-            //                        array.Add($"{exponent(x, i)}");
-            //                    }
-            //                    else
-            //                    {
-            //                        array.Add($"+{exponent(x, i)}");
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if (i == 0)
-            //                {
-            //                    array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-            //                }
-            //                else
-            //                {
-            //                    if (i == _coefficients.Length - 1)
-            //                    {
-            //                        array.Add($"{_coefficients[i]}{exponent(x, i)}");
-            //                    }
-            //                    else
-            //                    {
-            //                        array.Add($"+{_coefficients[i]}{exponent(x, i)}");
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if (_coefficients[i] == 0)
-            //            {
-            //                array.Add($"");
-            //            }
-            //            else
-            //            {
-            //                if (_coefficients[i] == -1)
-            //                {
-            //                    if (i == 0)
-            //                    {
-            //                        array.Add($"{_coefficients[i]}{exponent(x, i)}");
-            //                    }
-            //                    else
-            //                    {
-            //                        array.Add($"-{exponent(x, i)}");
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    array.Add($"{_coefficients[i]}{exponent(x, i)}");
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //array.Reverse();
-
-            //return String.Join("", array);
-
-            //string exponent(string p, int i)
-            //{
-            //    switch (i)
-            //    {
-            //        case 0: return $"{p}" + ""; // пустой символ
-            //        case 1: return $"{p}"; // p
-            //        case 2: return $"{p}" + "²"; // p^2
-            //        case 3: return $"{p}" + "³"; // p^3
-            //        case 4: return $"{p}" + "⁴"; // p^4
-            //        case 5: return $"{p}" + "⁵"; // p^5
-            //        case 6: return $"{p}" + "⁶"; // p^6
-            //        case 7: return $"{p}" + "⁷"; // p^7
-            //        case 8: return $"{p}" + "⁸"; // p^8
-            //        case 9: return $"{p}" + "⁹"; // p^9
-            //        default: return ""; // Для остальных значений
-            //    }
-            //}
+            }
+            else
+                foreach (string str in array)
+                {
+                    if (str.Length > 0) // Проверяем, что строка не пустая
+                    {
+                        char firstChar = str[0]; // Получаем первый символ
+                        if (newarray.Count > 0 && firstChar != '-')
+                        {
+                            newarray.Add($"+{str}");
+                        }else
+                            newarray.Add(str);
+                    }
+                }
+             return String.Join("", newarray);
         }
         public static Polynomial operator +(Polynomial P1, Polynomial P2)
         {
