@@ -59,65 +59,22 @@ namespace Practic5
             char oldOne = '1'; // Символ, который мы ищем
             char point = ',';
 
-            // Удаляем символ '0'
-            //for (int i = 0; i < array.Count; i++)
-            //{
-            //    foreach (char c in array[i])
-            //    {
-            //        if (c == oldChar)
-            //        {
-            //            array[i] = newChar;
-            //            break; // Выходим из цикла, если символ найден
-            //        }
-            //    }
-            //}
-
-            // Удаляем символ число 0
-            for (int i = 0; i < array.Count; i++)
+            //Удаляем число 1 где оно как-бы подразумевается, но не пишется 
+            for (int i = 0; i < array.Count; i++) // Внешний цикл для перебора строк
             {
-                if (array[i].Contains(oldChar) && array[i].Contains(point)) // Если есть '0' и ','
+                string str = array[i]; // Получаем текущую строку
+
+                // Проверяем условия для удаления символа '1'
+                if (str.Length > 1) // Убедимся, что строка имеет хотя бы 2 символа
                 {
-                    break;
-                }
-                else if (array[i].Contains(oldOne) && array[i].Contains(oldChar))
-                {
-                    break;
-                } else
-                {
-                    foreach (char c in array[i])
+                    if (str[0] == '1' && str[1] == 'x') // Условие 1: '1' - первый символ, 'x' - второй
                     {
-                        if (c == oldChar)
-                        {
-                            array[i] = newChar;
-                            break; // Выходим из цикла, если символ найден
-                        }
+                        array[i] = str.Substring(1); // Удаляем первый символ '1'
                     }
-                }
-            }
-
-            //// Удаляем символ '1'
-            //for (int i = 0; i < array.Count; i++)
-            //{
-            //    // Если это не последняя строка, то удаляем символ '1'
-            //    if (i < array.Count - 1)
-            //    {
-            //        array[i] = array[i].Replace(oldOne.ToString(), string.Empty);
-            //    }
-            //}
-
-            for (int i = 0; i < array.Count; i++)
-            {
-                // Если это не последняя строка, то удаляем символ '1'
-                if (i < array.Count - 1)
-                {
-                    if (array[i].Contains(point)) // Если есть ','
+                    else if (str[0] == '-' && str[1] == '1' && str.Length > 2 && str[2] == 'x') // Условие 2: '-' - первый, '1' - второй, 'x' - третий
                     {
-                        break;
-                    }else if (array[i].Contains(oldOne) && array[i].Contains(oldChar))
-                    {
-                        break;
-                    }else
-                    array[i] = array[i].Replace(oldOne.ToString(), string.Empty);
+                        array[i] = str.Remove(1, 1); // Удаляем второй символ '1'
+                    }
                 }
             }
 
