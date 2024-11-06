@@ -52,26 +52,60 @@ namespace Practic5
             string newChar = ""; // Символ, на который мы заменяем
             int numberNull = 0;
             char oldOne = '1'; // Символ, который мы ищем
+            char point = ',';
 
             // Удаляем символ '0'
+            //for (int i = 0; i < array.Count; i++)
+            //{
+            //    foreach (char c in array[i])
+            //    {
+            //        if (c == oldChar)
+            //        {
+            //            array[i] = newChar;
+            //            break; // Выходим из цикла, если символ найден
+            //        }
+            //    }
+            //}
+
+            // Удаляем символ число 0
             for (int i = 0; i < array.Count; i++)
             {
-                foreach (char c in array[i])
+                if (array[i].Contains(oldChar) && array[i].Contains(point)) // Если есть '0' и ','
                 {
-                    if (c == oldChar)
+                    break;
+                }
+                else
+                {
+                    foreach (char c in array[i])
                     {
-                        array[i] = newChar;
-                        break; // Выходим из цикла, если символ найден
+                        if (c == oldChar)
+                        {
+                            array[i] = newChar;
+                            break; // Выходим из цикла, если символ найден
+                        }
                     }
                 }
             }
 
-            // Удаляем символ '1'
+            //// Удаляем символ '1'
+            //for (int i = 0; i < array.Count; i++)
+            //{
+            //    // Если это не последняя строка, то удаляем символ '1'
+            //    if (i < array.Count - 1)
+            //    {
+            //        array[i] = array[i].Replace(oldOne.ToString(), string.Empty);
+            //    }
+            //}
+
             for (int i = 0; i < array.Count; i++)
             {
                 // Если это не последняя строка, то удаляем символ '1'
                 if (i < array.Count - 1)
                 {
+                    if (array[i].Contains(point)) // Если есть ','
+                    {
+                        break;
+                    }else
                     array[i] = array[i].Replace(oldOne.ToString(), string.Empty);
                 }
             }
@@ -103,7 +137,8 @@ namespace Practic5
                             newarray.Add(str);
                     }
                 }
-             return String.Join("", newarray);
+            //array.Reverse();
+            return String.Join("", newarray);
         }
         public static Polynomial operator +(Polynomial P1, Polynomial P2)
         {
