@@ -41,8 +41,13 @@ namespace Practic5
             List<string> array = new List<string>();
             List<string> newarray = new List<string>();
 
+            // Добавляем цисла из объекта в строковый массив
             for (int i = 0; i < _coefficients.Length; i++)
             {
+                if(_coefficients[i] == 0)
+                {
+                    array.Add($"");
+                } else
                 array.Add($"{exponent_x(_coefficients[i], i)}");
             }
 
@@ -74,7 +79,10 @@ namespace Practic5
                 {
                     break;
                 }
-                else
+                else if (array[i].Contains(oldOne) && array[i].Contains(oldChar))
+                {
+                    break;
+                } else
                 {
                     foreach (char c in array[i])
                     {
@@ -103,6 +111,9 @@ namespace Practic5
                 if (i < array.Count - 1)
                 {
                     if (array[i].Contains(point)) // Если есть ','
+                    {
+                        break;
+                    }else if (array[i].Contains(oldOne) && array[i].Contains(oldChar))
                     {
                         break;
                     }else

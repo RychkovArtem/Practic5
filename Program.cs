@@ -22,13 +22,13 @@ namespace Practic5
             //double[] coif = { 6, -7, 8, 1 };
             //Polynomial P1 = new Polynomial(coif);
             //Console.WriteLine(P1.ToString());
-            double[] p1 = { 0, -1.1, 0.8};
+            double[] p1 = { 0, 0.5, 5};
             double[] p2 = { 2, -1, 1 };
             Polynomial P1 = new Polynomial(p1);
             Polynomial P2 = new Polynomial(p2);
             //Polynomial P3 = P1 * P2;
             //double exp = P2.Exp();
-            Console.WriteLine(P2.ToString());
+            Console.WriteLine(P1.ToString());
         }
     }
 }
