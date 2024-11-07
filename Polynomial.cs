@@ -184,41 +184,6 @@ namespace Practic5
         }
         public static Polynomial operator /(Polynomial P1, Polynomial P2)
         {
-            //List<double> favoritcoeff_P = new List<double>();
-            //List<double> favoritcoeff_D = new List<double>();
-            //List<double> exp = new List<double>();
-            //double[] coefficients1 = new double[0];
-            //exp.Add(P1._exp.Max() - P2._exp.Max());
-            //coefficients1 = new double[(int)exp[0] + 1];
-            //coefficients1[0] = P1.favorit_coeff() / P2.favorit_coeff();
-            //Polynomial P3 = new Polynomial(coefficients1);
-
-            //P3 = P3 * P2;
-            //P3 = P1 - P3;
-
-            //while(P3._exp.Max() > P2._exp.Max())
-            //{
-            //    exp.Add(P3._exp.Max() - P2._exp.Max());
-            //    coefficients1 = new double[(int)exp[0] + 1];
-            //    coefficients1[0] = P3.favorit_coeff() / P2.favorit_coeff();
-            //    P1._coefficients = coefficients1;
-            //    P1 = P1 * P2;
-            //    P1 = P3 - P1;
-            //}
-
-            //favoritcoeff_P.Add(P3._coefficients[0]);
-            //favoritcoeff_D.Add(P2._coefficients[0]);
-
-
-
-            ////coefficients1 = new double[(int)exp[0] + 1];
-            ////coefficients1[0] = P1._coefficients[0] / P2._coefficients[0];
-
-
-
-            //double[] coefficientsSum = { 1, 0 };
-            //return new Polynomial(coefficientsSum);
-
             int maxDegree = (int)P1.Exp() + (int)P2.Exp() + 1;
 
             // Инициализируем результующий многочлен
@@ -238,37 +203,17 @@ namespace Practic5
             double favorit_T;
             Polynomial Q = new Polynomial(coefficients1);
             Polynomial T = new Polynomial(coefficients1);
-            //P3 = P1._coefficients[P1._coefficients.Length - 1] * P2;
-
-            //if (P2.Exp() < P1.Exp())
-            //{
-            //    r = new Polynomial(P1._coefficients);
-            //}
-
-            //while(r.Exp() >= P2.Exp())
-            //{
-            //    favorit_r = r.favorit_coeff();
-            //    Array.Reverse(r._coefficients);
-            //    favorit_P2 = P2.favorit_coeff();
-            //    favorit_T = favorit_r / favorit_P2;
-            //    expT = (P1.Exp() - P2.Exp()) + 1;
-            //    coefficients1 = new double[(int)expT];
-            //    coefficients1[coefficients1.Length - 1] = favorit_T;
-            //    T = new Polynomial(coefficients1, expT);
-            //    //T._coefficients[0] = favorit_r * favorit_P2;
-            //    P2 = P2 * T;
-            //    Polynomial r_2 = r - P2;
-            //}
 
             favorit_P2 = P2.favorit_coeff();
+            expP2 = P2.exp();
+            int numberNull = 0;
 
-            while (r.exp() >= P2.exp())
+            while (r.exp() >= expP2)
             {
                 favorit_r = r.favorit_coeff();
                 Array.Reverse(r._coefficients);               
                 favorit_T = favorit_r / favorit_P2;
                 expr = r.exp();
-                expP2 = P2.exp();
                 expT = (expr - expP2) + 1;
                 coefficients1 = new double[(int)expT];
                 coefficients1[coefficients1.Length - 1] = favorit_T;
@@ -278,6 +223,22 @@ namespace Practic5
                 r = r - Q;
             }
 
+            // Проверяем массив на yekb
+            for (int i = 0; i < r._coefficients.Length; i++)
+            {
+                if (r._coefficients[i] == 0)
+                {
+                    numberNull++;
+                }
+            }
+
+            // Если массив состоит из нулей, то выводим 1
+            if (numberNull == r._coefficients.Length)
+            {
+                r._coefficients[r._coefficients.Length - 1] = 1;
+                return new Polynomial(r._coefficients);
+            }
+            
             Array.Reverse(r._coefficients);
             return new Polynomial(r._coefficients);
         }

@@ -22,7 +22,7 @@ namespace Practic5
             //double[] coif = { 6, -7, 8, 1 };
             //Polynomial P1 = new Polynomial(coif);
             //Console.WriteLine(P1.ToString());
-            double[] p1 = { 3, 5, 0, 2, 4};
+            double[] p1 = { 1, 2, 1 };
             double[] p2 = { 1, 2, 1 };
             Polynomial P1 = new Polynomial(p1);
             Polynomial P2 = new Polynomial(p2);
