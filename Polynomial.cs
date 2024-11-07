@@ -41,6 +41,9 @@ namespace Practic5
             List<string> array = new List<string>();
             List<string> newarray = new List<string>();
 
+            string newChar = ""; // Символ, на который мы заменяем
+            int numberNull = 0;
+
             // Добавляем цисла из объекта в строковый массив
             for (int i = 0; i < _coefficients.Length; i++)
             {
@@ -52,12 +55,6 @@ namespace Practic5
             }
 
             array.Reverse();
-
-            char oldChar = '0'; // Символ, который мы ищем
-            string newChar = ""; // Символ, на который мы заменяем
-            int numberNull = 0;
-            char oldOne = '1'; // Символ, который мы ищем
-            char point = ',';
 
             //Удаляем число 1 где оно как-бы подразумевается, но не пишется 
             for (int i = 0; i < array.Count; i++) // Внешний цикл для перебора строк
@@ -228,10 +225,13 @@ namespace Practic5
             double[] R = new double[maxDegree];
             double[] coefficientsP = { 0 };
             double[] coefficientsQ = { 0 };
+            Array.Reverse(P1._coefficients);
             Polynomial r = new Polynomial(P1._coefficients);
             int maxI = 0;
             int maxK = 0;
             double expT = 0;
+            double expr = 0;
+            double expP2 = 0;
             double[] coefficients1 = { 0 };
             double favorit_r;
             double favorit_P2;
@@ -240,56 +240,46 @@ namespace Practic5
             Polynomial T = new Polynomial(coefficients1);
             //P3 = P1._coefficients[P1._coefficients.Length - 1] * P2;
 
-            if (P2.Exp() < P1.Exp())
-            {
-                r = new Polynomial(P1._coefficients);
-            }
+            //if (P2.Exp() < P1.Exp())
+            //{
+            //    r = new Polynomial(P1._coefficients);
+            //}
 
-            while(r.Exp() >= P2.Exp())
+            //while(r.Exp() >= P2.Exp())
+            //{
+            //    favorit_r = r.favorit_coeff();
+            //    Array.Reverse(r._coefficients);
+            //    favorit_P2 = P2.favorit_coeff();
+            //    favorit_T = favorit_r / favorit_P2;
+            //    expT = (P1.Exp() - P2.Exp()) + 1;
+            //    coefficients1 = new double[(int)expT];
+            //    coefficients1[coefficients1.Length - 1] = favorit_T;
+            //    T = new Polynomial(coefficients1, expT);
+            //    //T._coefficients[0] = favorit_r * favorit_P2;
+            //    P2 = P2 * T;
+            //    Polynomial r_2 = r - P2;
+            //}
+
+            favorit_P2 = P2.favorit_coeff();
+
+            while (r.exp() >= P2.exp())
             {
                 favorit_r = r.favorit_coeff();
-                favorit_P2 = P2.favorit_coeff();
+                Array.Reverse(r._coefficients);               
                 favorit_T = favorit_r / favorit_P2;
-                expT = (P1.Exp() - P2.Exp()) + 1;
+                expr = r.exp();
+                expP2 = P2.exp();
+                expT = (expr - expP2) + 1;
                 coefficients1 = new double[(int)expT];
                 coefficients1[coefficients1.Length - 1] = favorit_T;
                 T = new Polynomial(coefficients1, expT);
                 //T._coefficients[0] = favorit_r * favorit_P2;
-                P2 = P2 * T;
-                r = r - P2;
+                Q = P2 * T;
+                r = r - Q;
             }
 
-            if (P1.Exp() > P2.Exp())
-            {
-                maxI = P2._coefficients.Length;
-                maxK = P1._coefficients.Length;
-                coefficientsP = new double[P1._coefficients.Length];
-                coefficientsQ = new double[P2._coefficients.Length];
-                Array.Copy(P1._coefficients, coefficientsP, P1._coefficients.Length);
-                Array.Copy(P2._coefficients, coefficientsQ, P2._coefficients.Length);
-            }
-            else
-            {
-                maxI = P1._coefficients.Length;
-                maxK = P2._coefficients.Length;
-                coefficientsP = new double[P2._coefficients.Length];
-                coefficientsQ = new double[P1._coefficients.Length];
-                Array.Copy(P2._coefficients, coefficientsP, P2._coefficients.Length);
-                Array.Copy(P1._coefficients, coefficientsQ, P1._coefficients.Length);
-            }
-
-            // Умножение коэффициентов
-            for (int i = 0; i < maxI; i++)
-            {
-                for (int k = 0; k < maxK; k++)
-                {
-                    double coeffP = (k < maxK) ? coefficientsP[k] : 0; // Если индекс выходит за пределы P, берем 0
-                    double coeffQ = (i < maxI) ? coefficientsQ[i] : 0; // Если индекс выходит за пределы Q, берем 0
-                    R[i + k] += coeffP / coeffQ;
-                }
-            }
-            Array.Reverse(R);
-            return new Polynomial(R);
+            Array.Reverse(r._coefficients);
+            return new Polynomial(r._coefficients);
         }
         public double Exp()
         {
