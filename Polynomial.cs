@@ -192,8 +192,6 @@ namespace Practic5
             double[] coefficientsQ = { 0 };
             Array.Reverse(P1._coefficients);
             Polynomial r = new Polynomial(P1._coefficients);
-            int maxI = 0;
-            int maxK = 0;
             double expT = 0;
             double expr = 0;
             double expP2 = 0;
@@ -205,6 +203,7 @@ namespace Practic5
             Polynomial T = new Polynomial(coefficients1);
 
             favorit_P2 = P2.favorit_coeff();
+            Array.Reverse(P2._coefficients);
             expP2 = P2.exp();
             int numberNull = 0;
 
