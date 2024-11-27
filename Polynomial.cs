@@ -14,10 +14,23 @@ namespace Practic5
     {
         public double[] _coefficients { get; set; }
         public double[] _exp { get; set; }
+        public double[] _leftovers { get; set; }
         public Polynomial(double [] coefficients)
         {
             _coefficients = coefficients;
             Array.Reverse(_coefficients);
+            _leftovers = new double[coefficients.Length];
+            _exp = new double[coefficients.Length];
+            for (int i = 0; i < _exp.Length; i++)
+            {
+                _exp[i] = i;
+            }
+        }
+        public Polynomial(double[] coefficients, double[] leftovers)
+        {
+            _coefficients = coefficients;
+            Array.Reverse(_coefficients);
+            _leftovers = leftovers;
             _exp = new double[coefficients.Length];
             for (int i = 0; i < _exp.Length; i++)
             {
@@ -28,6 +41,7 @@ namespace Practic5
         {
             _coefficients = coefficients;
             Array.Reverse(_coefficients);
+            _leftovers = new double[coefficients.Length];
             _exp = new double[(int)exp];
             for (int i = 0; i < _exp.Length; i++)
             {
@@ -103,7 +117,87 @@ namespace Practic5
                     }
                 }
             //array.Reverse();
+            double lef = _leftovers.Sum();
+
+                if (lef != 0)
+                {
+                    //ToString();
+                    return $"{String.Join("", newarray)} {ToString(_leftovers)}";
+                }
+
             return String.Join("", newarray);
+        }
+        public string ToString(double[] leftovers)
+        {
+            //Объявляем список для хранения коэффициентов в строковом ввиде
+            List<string> array = new List<string>();
+            List<string> newarray = new List<string>();
+
+            string newChar = ""; // Символ, на который мы заменяем
+            int numberNull = 0;
+
+            // Добавляем цисла из объекта в строковый массив
+            for (int i = 0; i < _leftovers.Length; i++)
+            {
+                if (_leftovers[i] == 0)
+                {
+                    array.Add($"");
+                }
+                else
+                    array.Add($"{exponent_x(_leftovers[i], i)}");
+            }
+
+            array.Reverse();
+
+            //Удаляем число 1 где оно как-бы подразумевается, но не пишется 
+            for (int i = 0; i < array.Count; i++) // Внешний цикл для перебора строк
+            {
+                string str = array[i]; // Получаем текущую строку
+
+                // Проверяем условия для удаления символа '1'
+                if (str.Length > 1) // Убедимся, что строка имеет хотя бы 2 символа
+                {
+                    if (str[0] == '1' && str[1] == 'x') // Условие 1: '1' - первый символ, 'x' - второй
+                    {
+                        array[i] = str.Substring(1); // Удаляем первый символ '1'
+                    }
+                    else if (str[0] == '-' && str[1] == '1' && str.Length > 2 && str[2] == 'x') // Условие 2: '-' - первый, '1' - второй, 'x' - третий
+                    {
+                        array[i] = str.Remove(1, 1); // Удаляем второй символ '1'
+                    }
+                }
+            }
+
+            // Проверяем массив на пустые строки
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] == newChar)
+                {
+                    numberNull++;
+                }
+            }
+
+            // Если массив состоит из пустых строк, то выводим "0"
+            if (numberNull == array.Count)
+            {
+                return "0";
+            }
+            else
+                foreach (string str in array)
+                {
+                    if (str.Length > 0) // Проверяем, что строка не пустая
+                    {
+                        char firstChar = str[0]; // Получаем первый символ
+                        if (newarray.Count > 0 && firstChar != '-')
+                        {
+                            newarray.Add($"+{str}");
+                        }
+                        else
+                            newarray.Add(str);
+                    }
+                }
+            //return $"{String.Join("", result)} остаток({String.Join("", newarray)})";
+            return $"остаток({String.Join("", newarray)})";
         }
         public static Polynomial operator +(Polynomial P1, Polynomial P2)
         {
@@ -191,16 +285,18 @@ namespace Practic5
             double[] coefficientsP = { 0 };
             double[] coefficientsQ = { 0 };
             Array.Reverse(P1._coefficients);
-            Polynomial r = new Polynomial(P1._coefficients);
+            Polynomial r = new Polynomial(P1._coefficients); // остаток от деления
             double expT = 0;
             double expr = 0;
             double expP2 = 0;
             double[] coefficients1 = { 0 };
+            
             double favorit_r;
             double favorit_P2;
             double favorit_T;
             Polynomial Q = new Polynomial(coefficients1);
             Polynomial T = new Polynomial(coefficients1);
+            Polynomial result = new Polynomial(coefficients1); // результат деления
 
             favorit_P2 = P2.favorit_coeff();
             Array.Reverse(P2._coefficients);
@@ -217,29 +313,50 @@ namespace Practic5
                 coefficients1 = new double[(int)expT];
                 coefficients1[coefficients1.Length - 1] = favorit_T;
                 T = new Polynomial(coefficients1, expT);
+                result += T;
                 //T._coefficients[0] = favorit_r * favorit_P2;
                 Q = P2 * T;
                 r = r - Q;
             }
 
-            // Проверяем массив на yekb
-            for (int i = 0; i < r._coefficients.Length; i++)
+            // заполняем массив остатков
+            for (int i = 0; i < result._leftovers.Length; i++)
             {
-                if (r._coefficients[i] == 0)
+                result._leftovers[i] = r._coefficients[i];          
+            }
+
+            // Проверяем массив на нули
+            //for (int i = 0; i < r._coefficients.Length; i++)
+            //{
+            //    if (r._coefficients[i] == 0)
+            //    {
+            //        numberNull++;
+            //    }
+            //}
+            for (int i = 0; i < result._coefficients.Length; i++)
+            {
+                if (result._coefficients[i] == 0)
                 {
                     numberNull++;
                 }
             }
 
             // Если массив состоит из нулей, то выводим 1
-            if (numberNull == r._coefficients.Length)
+            //if (numberNull == r._coefficients.Length)
+            //{
+            //    r._coefficients[r._coefficients.Length - 1] = 1;
+            //    return new Polynomial(r._coefficients);
+            //}
+            if (numberNull == result._coefficients.Length)
             {
-                r._coefficients[r._coefficients.Length - 1] = 1;
-                return new Polynomial(r._coefficients);
+                result._coefficients[result._coefficients.Length - 1] = 1;
+                return new Polynomial(result._coefficients);
             }
-            
-            Array.Reverse(r._coefficients);
-            return new Polynomial(r._coefficients);
+
+            //Array.Reverse(r._coefficients);
+            //return new Polynomial(r._coefficients);
+            Array.Reverse(result._coefficients);
+            return new Polynomial(result._coefficients, result._leftovers);
         }
         public double Exp()
         {
